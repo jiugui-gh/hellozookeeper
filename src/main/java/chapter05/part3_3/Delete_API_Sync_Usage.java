@@ -3,6 +3,7 @@ package chapter05.part3_3;
 import java.util.concurrent.CountDownLatch;
 
 import org.apache.zookeeper.CreateMode;
+import org.apache.zookeeper.KeeperException;
 import org.apache.zookeeper.WatchedEvent;
 import org.apache.zookeeper.Watcher;
 import org.apache.zookeeper.Watcher.Event.EventType;
@@ -21,10 +22,10 @@ public class Delete_API_Sync_Usage implements Watcher {
         zk = new ZooKeeper("localhost:2181",5000,new Delete_API_Sync_Usage());
         
         connectedSemaphore.await();
-        
+        zk.exists(path, true);
         zk.create(path, "".getBytes(), Ids.OPEN_ACL_UNSAFE, CreateMode.EPHEMERAL);
         System.out.println("创建节点");
-        Thread.sleep(10000);
+        Thread.sleep(1000);
         zk.delete(path, -1);
         System.out.println("删除节点");
         System.in.read();
@@ -37,8 +38,21 @@ public class Delete_API_Sync_Usage implements Watcher {
         if(KeeperState.SyncConnected == event.getState()) {
             if(EventType.None == event.getType() && null == event.getPath()) {
                 connectedSemaphore.countDown();
+                
             }
+            System.out.println("死货");
+            try {
+                zk.exists(event.getPath(), true);
+            } catch (KeeperException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            } catch (InterruptedException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+            System.out.println(event.getType());
         }
     }
 
+    
 }
