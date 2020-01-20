@@ -11,10 +11,11 @@ public class AuthSample_Get {
         try {
             ZooKeeper zk = new ZooKeeper("localhost:2181",5000,null);
             zk.addAuthInfo("digest", "foo:true".getBytes());
-            zk.create(PATH, "init".getBytes(), Ids.CREATOR_ALL_ACL, CreateMode.EPHEMERAL);
+            zk.create(PATH, null, Ids.CREATOR_ALL_ACL, CreateMode.EPHEMERAL);
             
             ZooKeeper zk1 = new ZooKeeper("localhost:2181",5000,null);
-            zk1.getData(PATH, false, null);
+            //zk1.addAuthInfo("digest", "foo:true".getBytes());
+            System.out.println(zk1.getData(PATH, false, null));
         } catch (Exception e) {
             // TODO Auto-generated catch block
             e.printStackTrace();

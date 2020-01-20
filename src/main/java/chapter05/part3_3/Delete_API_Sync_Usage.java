@@ -22,7 +22,7 @@ public class Delete_API_Sync_Usage implements Watcher {
         zk = new ZooKeeper("localhost:2181",5000,new Delete_API_Sync_Usage());
         
         connectedSemaphore.await();
-        zk.exists(path, true);
+      //  zk.exists(path, true);
         zk.create(path, "".getBytes(), Ids.OPEN_ACL_UNSAFE, CreateMode.EPHEMERAL);
         System.out.println("创建节点");
         Thread.sleep(1000);
@@ -41,7 +41,7 @@ public class Delete_API_Sync_Usage implements Watcher {
                 
             }
             System.out.println("死货");
-            try {
+           /* try {
                 zk.exists(event.getPath(), true);
             } catch (KeeperException e) {
                 // TODO Auto-generated catch block
@@ -49,7 +49,7 @@ public class Delete_API_Sync_Usage implements Watcher {
             } catch (InterruptedException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
-            }
+            }*/
             System.out.println(event.getType());
         }
     }
