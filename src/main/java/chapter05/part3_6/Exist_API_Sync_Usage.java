@@ -26,13 +26,13 @@ public class Exist_API_Sync_Usage implements Watcher {
         
         zk.create(path, "".getBytes(), Ids.OPEN_ACL_UNSAFE, CreateMode.PERSISTENT);
         
-        zk.setData(path, "123".getBytes(), -1);
+        zk.setData(path, "123".getBytes(), 0);
         
         zk.create( path+"/c1", "".getBytes(), Ids.OPEN_ACL_UNSAFE, CreateMode.PERSISTENT );
         
-        zk.delete( path+"/c1", -1 );
+        zk.delete( path+"/c1", 0 );
         
-        zk.delete( path, -1 );
+        zk.delete( path, 1 );
         
         System.in.read();
     }
